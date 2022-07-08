@@ -1,7 +1,7 @@
 dependencies:
 - name: mariadb
   repository: https://charts.eu-de-2.cloud.sap
-  version: 0.3.55
+  version: 0.5.4
 - name: memcached
   repository: https://charts.eu-de-2.cloud.sap
   version: 0.0.10
@@ -22,6 +22,6 @@ dependencies:
   version: 0.1.2
 - name: utils
   repository: https://charts.eu-de-2.cloud.sap
-  version: 0.4.1
-digest: sha256:f6be06811952420202058981cee8fed567392841999cd2e1943b97111450189a
-generated: "2022-07-20T14:37:39.008904197+02:00"
+  version: 0.5.0
+digest: sha256:9ba5083b1c0e16a05d617bde70c9f6bcd42aab160d8a01c224e2c600d5b0c1bd
+generated: "2022-07-28T11:38:06.578755955+02:00"

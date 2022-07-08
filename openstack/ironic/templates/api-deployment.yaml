@@ -27,8 +27,11 @@ spec:
 {{ tuple . "ironic" "api" | include "helm-toolkit.snippets.kubernetes_metadata_labels" | indent 8 }}
       annotations:
         configmap-etc-hash: {{ include (print $.Template.BasePath "/etc-configmap.yaml") . | sha256sum }}
+        prometheus.io/scrape: "true"
+        prometheus.io/targets: {{ required ".Values.alerts.prometheus missing" .Values.alerts.prometheus | quote }}
     spec:
 {{ tuple . "ironic" "api" | include "kubernetes_pod_anti_affinity" | indent 6 }}
+{{ include "utils.proxysql.pod_settings" . | indent 6 }}
       containers:
       - name: ironic-api
         {{- if .Values.oslo_metrics.enabled }}
@@ -48,7 +51,7 @@ spec:
         - name: NAMESPACE
           value: {{ .Release.Namespace }}
         - name: DEPENDENCY_JOBS
-          value: "ironic-db-migration"
+          value: {{ include "ironic_db_migration_name" . | quote }}
         - name: DEPENDENCY_SERVICE
           {{- if eq .Values.mariadb.enabled true }}
           value: "ironic-mariadb,ironic-rabbitmq"

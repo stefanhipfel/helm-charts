@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ironic-db-migration
+  name: {{ include "ironic_db_migration_name" . }}
   labels:
     system: openstack
     type: job
@@ -10,6 +10,7 @@ metadata:
 spec:
   template:
     spec:
+{{ include "utils.proxysql.job_pod_settings" . | indent 6 }}
       initContainers:
       - name: "kubernetes-entrypoint"
         image: {{ .Values.global.registry }}/loci-ironic:{{ .Values.imageVersion }}
@@ -38,6 +39,7 @@ spec:
         - -c
         - |
           set -e
+          trap "{{ include "utils.proxysql.proxysql_signal_stop_script" . | trim }}" EXIT
           ironic-dbsync upgrade
           ironic-dbsync online_data_migrations
         env:

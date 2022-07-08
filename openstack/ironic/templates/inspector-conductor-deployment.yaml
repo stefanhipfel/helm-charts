@@ -29,8 +29,13 @@ spec:
       annotations:
         configmap-etc-hash: {{ include (print $.Template.BasePath "/etc-configmap.yaml") . | sha256sum }}
         configmap-inspector-etc-hash: {{ include (print $.Template.BasePath "/inspector-etc-configmap.yaml") . | sha256sum }}
+        {{- if .Values.proxysql.mode }}
+        prometheus.io/scrape: "true"
+        prometheus.io/targets: {{ required ".Values.alerts.prometheus missing" .Values.alerts.prometheus | quote }}
+        {{- end }}
     spec:
 {{ tuple . "ironic" "inspector" | include "kubernetes_pod_anti_affinity" | indent 6 }}
+{{ include "utils.proxysql.pod_settings" . | indent 6 }}
       containers:
       - name: ironic-inspector-conductor
         image: {{ .Values.global.registry }}/loci-ironic:{{ .Values.imageVersion }}

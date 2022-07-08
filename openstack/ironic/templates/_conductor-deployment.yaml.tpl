@@ -27,11 +27,12 @@ spec:
         configmap-etc-conductor-hash: {{ tuple . $conductor | include "ironic_conductor_configmap" | sha256sum }}{{- if $conductor.jinja2 }}{{`
         configmap-etc-jinja2-hash: {{ block | safe | sha256sum }}
 `}}{{- end }}
-        {{- if $conductor.conductor.statsd_enabled }}
+        {{- if or $conductor.conductor.statsd_enabled .Values.proxysql.mode }}
         prometheus.io/scrape: "true"
         prometheus.io/targets: {{ required ".Values.alerts.prometheus missing" .Values.alerts.prometheus | quote }}
         {{- end }}
     spec:
+{{ include "utils.proxysql.pod_settings" . | indent 6 }}
       containers:
       - name: ironic-conductor
         {{- if .Values.oslo_metrics.enabled }}

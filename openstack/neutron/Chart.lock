@@ -18,7 +18,7 @@ dependencies:
   repository: https://charts.eu-de-2.cloud.sap
   version: 0.1.2
 - name: utils
-  repository: https://charts.eu-de-2.cloud.sap
-  version: 0.4.1
-digest: sha256:4ef72ad1431fcb652cc27432068ce882393a522f5457ed30254478ef5fe54158
-generated: "2022-06-30T12:21:18.549093811+02:00"
+  repository: file://../utils
+  version: 0.6.0
+digest: sha256:14c47024136a74c05e6edd09b09a03d53cea3ba3ec57397181af3c109b7070b9
+generated: "2022-07-28T16:32:52.020488147+02:00"

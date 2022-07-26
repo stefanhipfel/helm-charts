@@ -116,6 +116,8 @@ max_overflow: 50
 inspectordbName: ironic_inspector
 inspectordbUser: ironic_inspector
 
+coordinationBackend: 'memcached'
+
 api:
   override: {}
   api_workers: 0
